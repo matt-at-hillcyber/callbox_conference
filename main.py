@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import sys
+import os
 
 # [START functions_tips_terminate]
 # [START functions_helloworld_get]
@@ -26,7 +27,9 @@ def hello_get(request):
         Response object using `make_response`
         <http://flask.pocoo.org/docs/0.12/api/#flask.Flask.make_response>.
     """
-    return 'Hello, World!'
+    api_key = os.environ.get('API_KEY', 'api_key not found')
+    token = os.environ.get('TOKEN', 'token not found')
+    return 'Hello, World! %s %s' % (api_key, token)
 # [END functions_helloworld_get]
 
 
