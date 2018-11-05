@@ -12,26 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from flask import Flask, request
+app = Flask(__name__)
 import sys
 import os
+#from twilio.twiml.voice_response import Conference, Dial, VoiceResponse
+
+def hello_get_method():
+    api_key = os.environ.get('API_KEY', 'api_key not found')
+    token = os.environ.get('TOKEN', 'token not found')
+    return 'Hello, World! %s %s' % (api_key, token)
+
+@app.route('/')
+def testme():
+  return hello_get_method()
 
 # [START functions_tips_terminate]
 # [START functions_helloworld_get]
 def hello_get(request):
-    """HTTP Cloud Function.
-    Args:
-        request (flask.Request): The request object.
-        <http://flask.pocoo.org/docs/0.12/api/#flask.Request>
-    Returns:
-        The response text, or any set of values that can be turned into a
-        Response object using `make_response`
-        <http://flask.pocoo.org/docs/0.12/api/#flask.Flask.make_response>.
-    """
+  return hello_get_method()
+# [END functions_helloworld_get]
+
+def hello_get_original(request):
     api_key = os.environ.get('API_KEY', 'api_key not found')
     token = os.environ.get('TOKEN', 'token not found')
     return 'Hello, World! %s %s' % (api_key, token)
-# [END functions_helloworld_get]
-
 
 # [START functions_helloworld_background]
 def hello_background(data, context):
@@ -183,3 +188,6 @@ def hello_error_2(request):
     from flask import abort
     return abort(500)
     # [END functions_helloworld_error]
+
+if __name__ == "__main__":
+    app.run()
